@@ -42,3 +42,4 @@ class BookingService: #enthält alle Funktionen bzgl. Buchungen
 
         session.delete(booking)
         session.commit()
+        return {"message": "Buchung erfolgreich gelöscht"}
