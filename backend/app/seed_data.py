@@ -50,23 +50,35 @@ def seed_data(): #erstellt alle Testdaten
             "Maurer", "Brunner", "Kunz", "Etter", "Kessler", "Wick"
         ]
 
-        def generate_more_names(existing_names, target_count=25):
-            names = list(existing_names)
+        def generate_more_names(existing_names, target_count=25): #Kopie der vorhandenen Namen
+            """
+            Erweitert eine Liste von Namen bis zur gewünschten Anzahl.
 
-            while len(names) < target_count:
+            - Generiert zufällige Namen aus Vor- und Nachnamen
+            - Verhindert doppelte Namen
+            - Gibt eine neue Liste zurück
+
+            :param existing_names: Liste vorhandener Namen
+            :param target_count: Zielanzahl (Standard: 25)
+            :return: Liste mit erweiterten Namen
+            """
+            names = list(existing_names) 
+                    
+
+            while len(names) < target_count: #Schleife läuft so lange, bis genügend Namen vorhanden sind
                 new_name = f"{random.choice(first_names)} {random.choice(last_names)}"
 
-                if new_name not in names:
+                if new_name not in names: #Duplikate vermeiden
                    names.append(new_name)
 
             return names
         
-        for team_name in user_names_by_team:
+        for team_name in user_names_by_team: #Schleife über alle Teams
             user_names_by_team[team_name] = generate_more_names(
                 user_names_by_team[team_name],
-                target_count=25
+                target_count=25 #Für jedes Team Namen auf 25 auffüllen
             )
-        
+        #Ergebnis wird wieder im Dictionary gespeichert
 
         teams = []
         for name in team_names:
