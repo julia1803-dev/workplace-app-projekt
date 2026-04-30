@@ -8,14 +8,11 @@ app = FastAPI(title="Workplace Booking App") #Initialisierung FastAPI-Anwendung
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[
-        "http://localhost:5173",
-        "https://workplace-app-projekt.vercel.app",
-    ],
+    allow_origins=["*"],  # erlaubt alle (für Projekt ok)
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
-) #frontend und backend läuft separat, die Verbindung wird nicht blockiert
+)
 
 @app.on_event("startup")
 def on_startup():
