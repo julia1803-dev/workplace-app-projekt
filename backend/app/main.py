@@ -8,8 +8,8 @@ app = FastAPI(title="Workplace Booking App") #Initialisierung FastAPI-Anwendung
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # erlaubt alle (für Projekt ok)
-    allow_credentials=True,
+    allow_origins=["*"],
+    allow_credentials=False,
     allow_methods=["*"],
     allow_headers=["*"],
 )
