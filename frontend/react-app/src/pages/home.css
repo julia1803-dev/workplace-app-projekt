@@ -1,0 +1,247 @@
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #0b0b0c;
+  color: white;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.app {
+  max-width: 430px;
+  margin: 0 auto;
+  padding: 20px 16px 40px;
+}
+
+/* HEADER */
+.header {
+  background: #c60018;
+  padding: 18px 20px;
+  border-radius: 18px;
+  font-weight: 800;
+  font-size: 1.9rem;
+  box-shadow: 0 8px 20px rgba(198, 0, 24, 0.35);
+}
+
+/* HERO */
+.hero {
+  background: linear-gradient(rgba(8, 8, 10, 0.5), rgba(8, 8, 10, 0.7)),
+    url("https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=1200&q=80");
+  background-size: cover;
+  background-position: center;
+  min-height: 220px;
+  padding: 22px;
+  border-radius: 24px;
+  margin-top: 18px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.35);
+}
+
+.hero h2 {
+  margin: 0 0 8px;
+  font-size: 2.2rem;
+}
+
+.hero p {
+  margin: 0;
+  font-size: 1.2rem;
+}
+
+.intro {
+  color: #d0d0d0;
+  line-height: 1.5;
+  margin: 18px 0 20px;
+}
+
+.message {
+  padding: 12px 14px;
+  border-radius: 14px;
+  margin-bottom: 14px;
+  font-weight: 700;
+}
+
+.message.error {
+  background: rgba(255, 77, 77, 0.16);
+  color: #ff8a8a;
+}
+
+.message.success {
+  background: rgba(34, 197, 94, 0.16);
+  color: #6ff0a0;
+}
+
+/* FORM */
+.form-grid {
+  display: grid;
+  gap: 14px;
+  grid-template-columns: 1fr;
+}
+
+.zone-field {
+  margin-top: 14px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.field label {
+  color: #f5f5f5;
+  font-weight: 700;
+  font-size: 0.95rem;
+}
+
+.field select,
+.field input {
+  width: 100%;
+  background: #14161a;
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  padding: 15px 16px;
+  font-size: 1rem;
+  outline: none;
+}
+
+/* STATS */
+.stats-section {
+  margin-top: 24px;
+}
+
+.stats-section h3 {
+  margin-bottom: 14px;
+}
+
+.stats-grid {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.stat-card {
+  background: #14161a;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 18px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.stat-card span {
+  color: #cfcfcf;
+  font-size: 0.95rem;
+}
+
+.stat-card strong {
+  font-size: 2rem;
+}
+
+/* DESKS */
+.desk-columns {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: 1fr;
+  margin-top: 20px;
+}
+
+.desk-card {
+  border-radius: 22px;
+  padding: 18px;
+}
+
+.desk-card.light {
+  background: white;
+  color: #111;
+}
+
+.desk-card.light h3,
+.desk-card.light p {
+  color: #111;
+}
+
+.desk-list {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 12px;
+}
+
+.desk-chip {
+  padding: 10px 14px;
+  border-radius: 999px;
+  font-weight: 700;
+  font-size: 0.95rem;
+}
+
+.desk-chip.free {
+  background: rgba(34, 197, 94, 0.16);
+  color: #15803d;
+}
+
+.desk-chip.occupied {
+  background: rgba(239, 68, 68, 0.16);
+  color: #b91c1c;
+}
+
+/* BOOKING */
+.booking-card {
+  background: #14161a;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 24px;
+  padding: 18px;
+  margin-top: 24px;
+}
+
+.booking-card h3 {
+  margin-top: 0;
+}
+
+.buttons {
+  margin-top: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.primary,
+.secondary {
+  border: none;
+  border-radius: 999px;
+  padding: 15px 18px;
+  font-size: 1rem;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.primary {
+  background: linear-gradient(135deg, #ff2643 0%, #c60018 100%);
+  color: white;
+  box-shadow: 0 10px 22px rgba(198, 0, 24, 0.32);
+}
+
+.secondary {
+  background: #1d1f24;
+  color: white;
+}
+
+/* Desktop etwas breiter */
+@media (min-width: 900px) {
+  .app {
+    max-width: 1100px;
+  }
+
+  .form-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .desk-columns {
+    grid-template-columns: 1fr 1fr;
+  }
+}
