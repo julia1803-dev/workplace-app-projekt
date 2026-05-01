@@ -282,10 +282,17 @@ export default function HomePage() {
         <div className="buttons">
           <button className="primary" onClick={handleBooking} disabled={!selectedDeskId}>
             Arbeitsplatz buchen
-          </button>
-          <button className="secondary" type="button">
-            Verfügbarkeit prüfen
-          </button>
+          <button
+           className="secondary"
+           type="button"
+           onClick={() => {
+            setBookingMessage("");
+            setErrorMessage("");
+            window.scrollTo({ top: 0, behavior: "smooth" });
+          }}
+        >
+         Verfügbarkeit prüfen
+        </button>
         </div>
       </div>
        <MyBookings selectedUser={selectedUser} />
