@@ -10,6 +10,7 @@ app.add_middleware(
     CORSMiddleware,
     allow_origins=[
         "http://localhost:5173",
+        "http://localhost:5176",
         "https://workplace-app-projekt.vercel.app",
     ],
     allow_credentials=True,
