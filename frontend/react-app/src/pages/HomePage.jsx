@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import "./home.css";
+import MyBookings from "./MyBookings";
 import {
   getTeams,
   getUsersByTeam,
@@ -97,6 +98,10 @@ export default function HomePage() {
 
   const freeDesks = useMemo(() => zoneDeskStatus?.free_desks ?? [], [zoneDeskStatus]);
   const occupiedDesks = useMemo(() => zoneDeskStatus?.occupied_desks ?? [], [zoneDeskStatus]);
+  const selectedUser = useMemo(
+  () => users.find((user) => String(user.id) === selectedUserId),
+  [users, selectedUserId]
+);
 
   const [selectedDeskId, setSelectedDeskId] = useState("");
 
@@ -283,6 +288,7 @@ export default function HomePage() {
           </button>
         </div>
       </div>
+       <MyBookings selectedUser={selectedUser} />
     </div>
   );
 }

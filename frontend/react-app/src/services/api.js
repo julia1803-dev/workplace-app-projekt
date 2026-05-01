@@ -46,3 +46,15 @@ export async function createBooking(data) {
   });
   return handleResponse(response);
 }
+
+export async function getUserBookings(userId) {
+  const response = await fetch(`${API_URL}/bookings/user/${userId}`);
+  return handleResponse(response);
+}
+
+export async function deleteBooking(bookingId) {
+  const response = await fetch(`${API_URL}/bookings/${bookingId}`, {
+    method: "DELETE",
+  });
+  return handleResponse(response);
+}

@@ -25,7 +25,8 @@ def create_booking(booking: BookingCreate, session: Session = Depends(get_sessio
         traceback.print_exc()
         raise HTTPException(status_code=500, detail=str(e)) #Serverfehler
 
-# 🔹 GET BOOKINGS BY USER  👇 HIER EINFÜGEN
+# 🔹 GET BOOKINGS BY USER 
+#  
 @router.get("/bookings/user/{user_id}")
 def get_user_bookings(user_id: int, session: Session = Depends(get_session)):
     bookings = session.exec(
@@ -34,16 +35,17 @@ def get_user_bookings(user_id: int, session: Session = Depends(get_session)):
     return bookings
 
 # 🔹 DELETE BOOKING
-@router.delete("/bookings/{booking_id}") #URL Parameter
+@router.delete("/bookings/{booking_id}")
 def delete_booking(booking_id: int, session: Session = Depends(get_session)):
-    try:
-        BookingService.delete_booking(session, booking_id)
-        return {"message": "Buchung gelöscht."}
-    except ValueError as e:
-        raise HTTPException(status_code=404, detail=str(e))
-    except Exception as e:
-        traceback.print_exc()
-        raise HTTPException(status_code=500, detail=str(e))
+    booking = session.get(Booking, booking_id)
+
+    if not booking:
+        raise HTTPException(status_code=404, detail="Buchung wurde nicht gefunden.")
+
+    session.delete(booking)
+    session.commit()
+
+    return {"message": "Buchung wurde storniert."}
 
 
 # 🔹 TEAMS

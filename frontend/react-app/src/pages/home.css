@@ -245,3 +245,41 @@ body {
     grid-template-columns: 1fr 1fr;
   }
 }
+.my-bookings {
+  margin-top: 32px;
+}
+
+.my-bookings-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.my-booking-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #15171d;
+  border: 1px solid #2a2d35;
+  border-radius: 14px;
+  padding: 16px;
+}
+
+.delete-button {
+  background: #c60018;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  padding: 10px 16px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.delete-button:hover {
+  opacity: 0.85;
+}
+
+.booking-info {
+  color: #7cff9b;
+  font-weight: bold;
+}
