@@ -25,6 +25,13 @@ def create_booking(booking: BookingCreate, session: Session = Depends(get_sessio
         traceback.print_exc()
         raise HTTPException(status_code=500, detail=str(e)) #Serverfehler
 
+# 🔹 GET BOOKINGS BY USER  👇 HIER EINFÜGEN
+@router.get("/bookings/user/{user_id}")
+def get_user_bookings(user_id: int, session: Session = Depends(get_session)):
+    bookings = session.exec(
+        select(Booking).where(Booking.user_id == user_id)
+    ).all()
+    return bookings
 
 # 🔹 DELETE BOOKING
 @router.delete("/bookings/{booking_id}") #URL Parameter
