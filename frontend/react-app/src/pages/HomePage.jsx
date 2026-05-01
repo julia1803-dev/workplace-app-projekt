@@ -27,6 +27,7 @@ export default function HomePage() {
   const [zoneStatus, setZoneStatus] = useState(null);
   const [zoneDeskStatus, setZoneDeskStatus] = useState(null);
 
+  const [selectedDeskId, setSelectedDeskId] = useState("");
   const [loading, setLoading] = useState(true);
   const [bookingMessage, setBookingMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
@@ -39,13 +40,8 @@ export default function HomePage() {
         setTeams(teamsData);
         setZones(zonesData);
 
-        if (teamsData.length > 0) {
-          setSelectedTeamId(String(teamsData[0].id));
-        }
-
-        if (zonesData.length > 0) {
-          setSelectedZoneId(String(zonesData[0].id));
-        }
+        if (teamsData.length > 0) setSelectedTeamId(String(teamsData[0].id));
+        if (zonesData.length > 0) setSelectedZoneId(String(zonesData[0].id));
       } catch (error) {
         setErrorMessage("Daten konnten nicht geladen werden.");
       } finally {
@@ -77,33 +73,31 @@ export default function HomePage() {
     loadUsers();
   }, [selectedTeamId]);
 
+  async function loadZoneData() {
+    if (!selectedZoneId || !selectedDate) return;
+
+    const [statusData, deskData] = await Promise.all([
+      getZoneStatus(selectedZoneId, selectedDate),
+      getZoneDesksStatus(selectedZoneId, selectedDate),
+    ]);
+
+    setZoneStatus(statusData);
+    setZoneDeskStatus(deskData);
+  }
+
   useEffect(() => {
-    async function loadZoneData() {
-      if (!selectedZoneId || !selectedDate) return;
-
-      try {
-        const [statusData, deskData] = await Promise.all([
-          getZoneStatus(selectedZoneId, selectedDate),
-          getZoneDesksStatus(selectedZoneId, selectedDate),
-        ]);
-        setZoneStatus(statusData);
-        setZoneDeskStatus(deskData);
-      } catch (error) {
-        setErrorMessage("Zonenstatus konnte nicht geladen werden.");
-      }
-    }
-
-    loadZoneData();
+    loadZoneData().catch(() => {
+      setErrorMessage("Zonenstatus konnte nicht geladen werden.");
+    });
   }, [selectedZoneId, selectedDate]);
 
   const freeDesks = useMemo(() => zoneDeskStatus?.free_desks ?? [], [zoneDeskStatus]);
   const occupiedDesks = useMemo(() => zoneDeskStatus?.occupied_desks ?? [], [zoneDeskStatus]);
-  const selectedUser = useMemo(
-  () => users.find((user) => String(user.id) === selectedUserId),
-  [users, selectedUserId]
-);
 
-  const [selectedDeskId, setSelectedDeskId] = useState("");
+  const selectedUser = useMemo(
+    () => users.find((user) => String(user.id) === selectedUserId),
+    [users, selectedUserId]
+  );
 
   useEffect(() => {
     if (freeDesks.length > 0) {
@@ -130,21 +124,29 @@ export default function HomePage() {
       });
 
       setBookingMessage("Buchung erfolgreich!");
-
-      const [statusData, deskData] = await Promise.all([
-        getZoneStatus(selectedZoneId, selectedDate),
-        getZoneDesksStatus(selectedZoneId, selectedDate),
-      ]);
-
-      setZoneStatus(statusData);
-      setZoneDeskStatus(deskData);
+      await loadZoneData();
     } catch (error) {
       setErrorMessage("Buchung konnte nicht durchgeführt werden.");
     }
   }
 
+  async function handleCheckAvailability() {
+    try {
+      setBookingMessage("");
+      setErrorMessage("");
+      await loadZoneData();
+      setBookingMessage("Verfügbarkeit aktualisiert!");
+    } catch (error) {
+      setErrorMessage("Fehler beim Laden der Verfügbarkeit.");
+    }
+  }
+
   if (loading) {
-    return <div className="app"><p>Lade Daten...</p></div>;
+    return (
+      <div className="app">
+        <p>Lade Daten...</p>
+      </div>
+    );
   }
 
   return (
@@ -188,11 +190,7 @@ export default function HomePage() {
 
         <div className="field">
           <label>Datum</label>
-          <input
-            type="date"
-            value={selectedDate}
-            onChange={(e) => setSelectedDate(e.target.value)}
-          />
+          <input type="date" value={selectedDate} onChange={(e) => setSelectedDate(e.target.value)} />
         </div>
       </div>
 
@@ -282,20 +280,15 @@ export default function HomePage() {
         <div className="buttons">
           <button className="primary" onClick={handleBooking} disabled={!selectedDeskId}>
             Arbeitsplatz buchen
-          <button
-           className="secondary"
-           type="button"
-           onClick={() => {
-            setBookingMessage("");
-            setErrorMessage("");
-            window.scrollTo({ top: 0, behavior: "smooth" });
-          }}
-        >
-         Verfügbarkeit prüfen
-        </button>
+          </button>
+
+          <button className="secondary" type="button" onClick={handleCheckAvailability}>
+            Verfügbarkeit prüfen
+          </button>
         </div>
       </div>
-       <MyBookings selectedUser={selectedUser} />
+
+      <MyBookings selectedUser={selectedUser} />
     </div>
   );
 }
